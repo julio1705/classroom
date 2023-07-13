@@ -1,0 +1,42 @@
+body {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+table thead tr th{
+    padding: 10px;
+}
+table tbody tr td{
+    padding: 3px;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2rem;
+}
+h3 {
+    text-transform: uppercase;
+    margin: 2rem;
+}
+#root {
+    width: 45rem;
+}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.form {
+    margin-left: 5rem;
+}
+.table {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.grades {
+    width: 2rem;
+    text-align: center;
+}
