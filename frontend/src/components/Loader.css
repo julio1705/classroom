@@ -1,0 +1,22 @@
+.loader1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  
+}
+
+.loader2 {
+  width: 80px;
+  height: 80px;
+  border: 6px solid #e5e5e5;
+  border-top-color: #51d4db;
+  border-radius: 50%;
+  animation: is-rotating 1s infinite;
+}
+
+@keyframes is-rotating {
+  to {
+    transform: rotate(1turn);
+  }
+}

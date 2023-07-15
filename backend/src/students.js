@@ -57,7 +57,7 @@ app.get('/students/:id', (req, res) => {
       let grades = {
         id: response.id,
         name: response.name,
-        grades: response.student_id == null ? ['','','',''] : [response.b1, response.b2, response.b3, response.b4],
+        grades: response.student_id == null ? [' ',' ',' ',' '] : [response.b1, response.b2, response.b3, response.b4],
         method: response.student_id == null ? 'POST' : 'PUT'
       };
       res.json(grades);

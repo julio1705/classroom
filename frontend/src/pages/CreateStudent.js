@@ -1,4 +1,5 @@
 import React from "react";
+import Loader from "../components/Loader";
 
 function StudentRegistration({ setShareState }) {
 
@@ -7,6 +8,28 @@ function StudentRegistration({ setShareState }) {
             page: page, data: { idStudent }
         })
     }
+
+    const saveStudent = async() => {
+        const student = {
+            name: document.querySelector('#name').value,
+            date: document.querySelector('#date').value,
+            sex: document.querySelector('select[name="sex"]').value
+        }; 
+        <Loader />
+        fetch(`http://localhost:3001/students`, {
+            method: 'POST',
+            body: JSON.stringify(student),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+            .then(res => res.json())
+            .then(res => {
+                console.log(res)
+                alert(res.message);
+                window.location.reload();
+            }).catch(error => console.error(error))
+    };
 
     return (
         <>
@@ -31,12 +54,11 @@ function StudentRegistration({ setShareState }) {
                         <option value="F" id="women">Feminino</option>
                     </select>
                     <br />
-                    <input type="button" id="btnAdd" value="Salvar" ></input>
+                    <input type="button" id="btnAdd" value="Salvar" onClick={saveStudent}></input>
                 </form>
             </div>
         </>
     )
-
 };
 
 export default StudentRegistration;

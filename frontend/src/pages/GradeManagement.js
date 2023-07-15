@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Loader from "../components/Loader";
 
 function GradeManagement({ setShareState, shareData }) {
 
@@ -7,12 +8,21 @@ function GradeManagement({ setShareState, shareData }) {
         return grades.json();
     };
 
-    const [student, setStudent] = useState(null);
+    const [student, setStudent] = useState('');
+    const [grade1, setGrade1] = useState('');
+    const [grade2, setGrade2] = useState('');
+    const [grade3, setGrade3] = useState('');
+    const [grade4, setGrade4] = useState('');
 
     useEffect(() => {
-        getStudentGrades().then(res => {
-            setStudent(res)
+        getStudentGrades().then(student => {
+            setStudent(student)
+            setGrade1(student.grades[0])
+            setGrade2(student.grades[1])
+            setGrade3(student.grades[2])
+            setGrade4(student.grades[3])
         });
+        // eslint-disable-next-line
     }, []);
 
     const showComponents = (page, idStudent) => {
@@ -21,9 +31,32 @@ function GradeManagement({ setShareState, shareData }) {
         })
     }
 
+    const saveGrades = async (id, gradesMethod) => {
+        const grades = {
+            b1: document.querySelector('#grade1').value,
+            b2: document.querySelector('#grade2').value,
+            b3: document.querySelector('#grade3').value,
+            b4: document.querySelector('#grade4').value
+        };
+        <Loader />
+        fetch(`http://localhost:3001/students/${id}/grades/`, {
+            method: gradesMethod,
+            body: JSON.stringify(grades),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+            .then(res => res.json())
+            .then(res => {
+                alert(res.message);
+                window.location.reload();
+            })
+            .catch(error => console.error(error))
+    };
+
     return (
         <>
-            {!student && (<p>Carregando...</p>)}
+            {!student && (<Loader />)}
             {student && (
                 <>
                     <div className="header">
@@ -44,29 +77,28 @@ function GradeManagement({ setShareState, shareData }) {
                             <tbody>
                                 <tr>
                                     <td>1</td>
-                                    <td><input className="grades" id="grade1" value={student.grades[0]}></input></td>
+                                    <td><input className="grades" id="grade1" value={grade1} onChange={(event) => setGrade1(event.target.value)}></input></td>
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td><input className="grades" id="grade2" value={student.grades[1]}></input></td>
+                                    <td><input className="grades" id="grade2" value={grade2} onChange={(event) => setGrade2(event.target.value)}></input></td>
                                 </tr>
                                 <tr>
                                     <td>3</td>
-                                    <td><input className="grades" id="grade3" value={student.grades[2]}></input></td>
+                                    <td><input className="grades" id="grade3" value={grade3} onChange={(event) => setGrade3(event.target.value)}></input></td>
                                 </tr>
                                 <tr>
                                     <td>4</td>
-                                    <td><input className="grades" id="grade4" value={student.grades[3]}></input></td>
+                                    <td><input className="grades" id="grade4" value={grade4} onChange={(event) => setGrade4(event.target.value)}></input></td>
                                 </tr>
                             </tbody>
 
                         </table>
                     </div>
-                    <br/><br/>
-                    <button>Salvar</button>
+                    <br /><br />
+                    <button onClick={()=>saveGrades(student.id, student.method)} >Salvar</button>
                 </>
             )}
-
         </>
     )
 }
