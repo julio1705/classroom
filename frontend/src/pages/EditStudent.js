@@ -1,44 +1,45 @@
 import React, { useEffect, useState } from "react";
 import Loader from '../components/Loader';
+import { Link, useParams } from 'react-router-dom';
 
-function EditStudent({ setShareState, shareData }) {
+function EditStudent() {
+
+    let student = useParams();
 
     async function getStudent() {
-        const students = await fetch(`http://localhost:3001/students/${shareData.idStudent}`)
+        const students = await fetch(`http://localhost:3001/students/${student.id}`);
         return students.json();
     };
 
-    const [student, setStudent] = useState('');
+    const [studentData, setstudentData] = useState('');
     const [name, setName] = useState('');
     const [date, setDate] = useState('');
-    //const [sex, setSex] = useState('');
 
     useEffect(() => {
-        getStudent().then(student => {
-            setStudent(student)
-            setName(student.name)
-            setDate(student.date.slice(0, -14))
-            //setSex(student.sex)
+        getStudent().then(res => {
+            setstudentData(res)
+            setName(res.name)
+            setDate(res.date.slice(0, -14))
         });
         // eslint-disable-next-line
     }, []);
 
-    const showComponents = (page, idStudent) => {
-        setShareState({
-            page: page, data: { idStudent }
-        })
-    }
+    // const showComponents = (page, idStudent) => {
+    //     setShareState({
+    //         page: page, data: { idStudent }
+    //     })
+    // }
 
-    const saveStudent = async() => {
-        const student = {
+    function saveStudent() {
+        const date = {
             name: document.querySelector('#name').value,
             date: document.querySelector('#date').value,
             sex: document.querySelector('select[name="sex"]').value
-        }; 
+        };
         <Loader />
-        fetch(`http://localhost:3001/students/${shareData.idStudent}`, {
+        fetch(`http://localhost:3001/students/${student.id}`, {
             method: 'PUT',
-            body: JSON.stringify(student),
+            body: JSON.stringify(date),
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }
@@ -47,18 +48,20 @@ function EditStudent({ setShareState, shareData }) {
             .then(res => {
                 console.log(res)
                 alert(res.message);
-                window.location.reload();
+                window.location.href = "http://localhost:3000/";
             }).catch(error => console.error(error))
     };
 
     return (
         <>
-            {!student && (<Loader />)}
-            {student && (
+            {!studentData && (<Loader />)}
+            {studentData && (
                 <>
                     <div className="header">
                         <h1>Editar Aluno</h1>
-                        <button onClick={() => showComponents('home')}>Voltar</button>
+                        <Link to={'/'}>
+                            <button>Voltar</button>
+                        </Link>
                     </div>
                     <div className="form">
                         <form>
@@ -69,7 +72,7 @@ function EditStudent({ setShareState, shareData }) {
                             <input type="date" id="date" value={date} onChange={(event) => setDate(event.target.value)}></input>
                             <br />
                             <label htmlFor="sex">Sexo:</label>
-                            <select name="sex" id="sex" defaultValue={student.sex}>
+                            <select name="sex" id="sex" defaultValue={studentData.sex}>
                                 <option value="0">...</option>
                                 <option value="M" id="male">Masculino</option>
                                 <option value="F" id="women">Feminino</option>

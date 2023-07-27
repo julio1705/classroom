@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../components/Loader";
+import { Link } from 'react-router-dom';
 
-function Home({ setShareState }) {
+function Home() {
 
     async function getStudents() {
         const students = await fetch(`http://localhost:3001/students`)
@@ -21,13 +22,13 @@ function Home({ setShareState }) {
         });
     }, []);
 
-    const showComponents = (page, idStudent) => {
-        setShareState({
-            page: page, data: { idStudent }
-        })
-    }
+    // const showComponents = (page, idStudent) => {
+    //     setShareState({
+    //         page: page, data: { idStudent }
+    //     })
+    // }
 
-    const deleteStudent = async (id) => {
+    function deleteStudent(id) {
         getStudent(id).then(student => {
             fetch(`http://localhost:3001/students/${id}`, {
                 method: 'DELETE'
@@ -47,7 +48,10 @@ function Home({ setShareState }) {
                 <>
                     <div className="header">
                         <h1>Alunos</h1>
-                        <button onClick={() => showComponents('CreateStudent')}>Cadastrar</button>
+                        <Link to={'/cadastrar'}>
+                            <button>Cadastrar</button>
+                        </Link>
+
                     </div>
                     <table>
                         <thead>
@@ -69,8 +73,12 @@ function Home({ setShareState }) {
                                     <td>{student.sex}</td>
                                     <td>{student.status}</td>
                                     <td>
-                                        <button onClick={() => showComponents('gradeManagement', student.id)}>Gerenciar notas</button>
-                                        <button onClick={() => showComponents('editStudent', student.id)}>Editar aluno</button>
+                                        <Link to={`/aluno/${student.id}/notas`}>
+                                            <button>Gerenciar notas</button>
+                                        </Link>
+                                        <Link to={`/editar/${student.id}`}>
+                                            <button>Editar aluno</button>
+                                        </Link>
                                         <button onClick={() => deleteStudent(student.id)}>Excluir aluno</button>
                                     </td>
                                 </tr>

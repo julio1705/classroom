@@ -57,7 +57,7 @@ app.get('/students/:id', (req, res) => {
       let grades = {
         id: response.id,
         name: response.name,
-        grades: response.student_id == null ? [' ',' ',' ',' '] : [response.b1, response.b2, response.b3, response.b4],
+        grades: response.student_id == null ? ['','','',''] : [response.b1, response.b2, response.b3, response.b4],
         method: response.student_id == null ? 'POST' : 'PUT'
       };
       res.json(grades);
@@ -130,7 +130,7 @@ app.get('/students/:id', (req, res) => {
   
   function calculateResult(b1, b2, b3, b4) {
     const sum = b1 + b2 + b3 + b4;
-    if(sum == 0){
+    if(sum === ''){
       return 'Sem nota'
     };
     const average = sum/4;

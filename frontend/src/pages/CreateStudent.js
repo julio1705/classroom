@@ -1,20 +1,21 @@
 import React from "react";
 import Loader from "../components/Loader";
+import { Link } from 'react-router-dom';
 
-function StudentRegistration({ setShareState }) {
+function StudentRegistration() {
 
-    const showComponents = (page, idStudent) => {
-        setShareState({
-            page: page, data: { idStudent }
-        })
-    }
+    // const showComponents = (page, idStudent) => {
+    //     setShareState({
+    //         page: page, data: { idStudent }
+    //     })
+    // }
 
-    const saveStudent = async() => {
+    function saveStudent() {
         const student = {
             name: document.querySelector('#name').value,
             date: document.querySelector('#date').value,
             sex: document.querySelector('select[name="sex"]').value
-        }; 
+        };
         <Loader />
         fetch(`http://localhost:3001/students`, {
             method: 'POST',
@@ -27,7 +28,7 @@ function StudentRegistration({ setShareState }) {
             .then(res => {
                 console.log(res)
                 alert(res.message);
-                window.location.reload();
+                window.location.href = "http://localhost:3000/";
             }).catch(error => console.error(error))
     };
 
@@ -35,7 +36,10 @@ function StudentRegistration({ setShareState }) {
         <>
             <div className="header">
                 <h1>Cadastrar Aluno</h1>
-                <button onClick={() => showComponents('home')}>Voltar</button>
+                <Link to={'/'}>
+                <button>Voltar</button>
+                </Link>
+                
             </div>
             <div className="form">
                 <form>

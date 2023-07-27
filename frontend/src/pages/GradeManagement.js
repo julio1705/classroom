@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../components/Loader";
+import { Link, useParams } from 'react-router-dom';
 
-function GradeManagement({ setShareState, shareData }) {
+function GradeManagement() {
+
+    let student = useParams();
 
     async function getStudentGrades() {
-        const grades = await fetch(`http://localhost:3001/students/${shareData.idStudent}/grades/`)
+        const grades = await fetch(`http://localhost:3001/students/${student.id}/grades/`)
         return grades.json();
     };
 
-    const [student, setStudent] = useState('');
+    const [studentData, setstudentData] = useState('');
     const [grade1, setGrade1] = useState('');
     const [grade2, setGrade2] = useState('');
     const [grade3, setGrade3] = useState('');
@@ -16,7 +19,7 @@ function GradeManagement({ setShareState, shareData }) {
 
     useEffect(() => {
         getStudentGrades().then(student => {
-            setStudent(student)
+            setstudentData(student)
             setGrade1(student.grades[0])
             setGrade2(student.grades[1])
             setGrade3(student.grades[2])
@@ -25,13 +28,13 @@ function GradeManagement({ setShareState, shareData }) {
         // eslint-disable-next-line
     }, []);
 
-    const showComponents = (page, idStudent) => {
-        setShareState({
-            page: page, data: { idStudent }
-        })
-    }
+    // const showComponents = (page, idStudent) => {
+    //     setShareState({
+    //         page: page, data: { idStudent }
+    //     })
+    // }
 
-    const saveGrades = async (id, gradesMethod) => {
+    function saveGrades(id, gradesMethod) {
         const grades = {
             b1: document.querySelector('#grade1').value,
             b2: document.querySelector('#grade2').value,
@@ -49,23 +52,25 @@ function GradeManagement({ setShareState, shareData }) {
             .then(res => res.json())
             .then(res => {
                 alert(res.message);
-                window.location.reload();
+                window.location.href = "http://localhost:3000/";
             })
             .catch(error => console.error(error))
     };
 
     return (
         <>
-            {!student && (<Loader />)}
-            {student && (
+            {!studentData && (<Loader />)}
+            {studentData && (
                 <>
                     <div className="header">
                         <h1>
                             Gerenciamento de notas
                         </h1>
-                        <button onClick={() => showComponents('home')}>Voltar</button>
+                        <Link to={'/'}>
+                            <button>Voltar</button>
+                        </Link>
                     </div>
-                    <h3>{student.name} - Id {student.id}</h3>
+                    <h3>{studentData.name} - Id {studentData.id}</h3>
                     <div className="table">
                         <table>
                             <thead>
@@ -96,7 +101,7 @@ function GradeManagement({ setShareState, shareData }) {
                         </table>
                     </div>
                     <br /><br />
-                    <button onClick={()=>saveGrades(student.id, student.method)} >Salvar</button>
+                    <button onClick={() => saveGrades(studentData.id, studentData.method)} >Salvar</button>
                 </>
             )}
         </>
