@@ -29,12 +29,6 @@ function GradeManagement() {
         // eslint-disable-next-line
     }, []);
 
-    // const showComponents = (page, idStudent) => {
-    //     setShareState({
-    //         page: page, data: { idStudent }
-    //     })
-    // }
-
     function saveGrades(id, gradesMethod) {
         const grades = {
             b1: document.querySelector('#grade1').value,
@@ -43,7 +37,7 @@ function GradeManagement() {
             b4: document.querySelector('#grade4').value
         };
         <Loader />
-        fetch(`http://localhost:3001/students/${id}/grades/`, {
+        fetch(`${config.apiUrl}/students/${id}/grades/`, {
             method: gradesMethod,
             body: JSON.stringify(grades),
             headers: {
@@ -53,7 +47,7 @@ function GradeManagement() {
             .then(res => res.json())
             .then(res => {
                 alert(res.message);
-                window.location.href = "http://localhost:3000/";
+                window.location.href = `${config.frontUrl}`;
             })
             .catch(error => console.error(error))
     };

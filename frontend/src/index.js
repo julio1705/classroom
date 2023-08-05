@@ -22,11 +22,11 @@ const router = createBrowserRouter([
       element: <CreateStudent />
     },
     {
-      path: '/editar/:id',
+      path: '/estudante/:id',
       element: <EditStudent />,
     },
     {
-      path: '/aluno/:id/notas',
+      path: '/estudante/:id/notas',
       element: <GradeManagement />,
     },
   ]);

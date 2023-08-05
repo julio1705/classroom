@@ -23,15 +23,9 @@ function Home() {
         });
     }, []);
 
-    // const showComponents = (page, idStudent) => {
-    //     setShareState({
-    //         page: page, data: { idStudent }
-    //     })
-    // }
-
     function deleteStudent(id) {
         getStudent(id).then(student => {
-            fetch(`http://localhost:3001/students/${id}`, {
+            fetch(`${config.apiUrl}/students/${id}`, {
                 method: 'DELETE'
             })
                 .then(res => res.json())
@@ -74,10 +68,10 @@ function Home() {
                                     <td>{student.sex}</td>
                                     <td>{student.status}</td>
                                     <td>
-                                        <Link to={`/aluno/${student.id}/notas`}>
+                                        <Link to={`/estudante/${student.id}/notas`}>
                                             <button>Gerenciar notas</button>
                                         </Link>
-                                        <Link to={`/editar/${student.id}`}>
+                                        <Link to={`/estudante/${student.id}`}>
                                             <button>Editar aluno</button>
                                         </Link>
                                         <button onClick={() => deleteStudent(student.id)}>Excluir aluno</button>

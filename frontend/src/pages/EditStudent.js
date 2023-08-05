@@ -25,12 +25,6 @@ function EditStudent() {
         // eslint-disable-next-line
     }, []);
 
-    // const showComponents = (page, idStudent) => {
-    //     setShareState({
-    //         page: page, data: { idStudent }
-    //     })
-    // }
-
     function saveStudent() {
         const date = {
             name: document.querySelector('#name').value,
@@ -38,7 +32,7 @@ function EditStudent() {
             sex: document.querySelector('select[name="sex"]').value
         };
         <Loader />
-        fetch(`http://localhost:3001/students/${student.id}`, {
+        fetch(`${config.apiUrl}/students/${student.id}`, {
             method: 'PUT',
             body: JSON.stringify(date),
             headers: {
@@ -49,7 +43,7 @@ function EditStudent() {
             .then(res => {
                 console.log(res)
                 alert(res.message);
-                window.location.href = "http://localhost:3000/";
+                window.location.href = `${config.frontUrl}`;
             }).catch(error => console.error(error))
     };
 
