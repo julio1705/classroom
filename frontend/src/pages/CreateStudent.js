@@ -1,6 +1,7 @@
 import React from "react";
 import Loader from "../components/Loader";
 import { Link } from 'react-router-dom';
+import config from '../config';
 
 function StudentRegistration() {
 
@@ -17,7 +18,7 @@ function StudentRegistration() {
             sex: document.querySelector('select[name="sex"]').value
         };
         <Loader />
-        fetch(`http://localhost:3001/students`, {
+        fetch(`${config.apiUrl}/students`, {
             method: 'POST',
             body: JSON.stringify(student),
             headers: {

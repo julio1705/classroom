@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import { Link } from 'react-router-dom';
+import config from '../config';
 
 function Home() {
 
     async function getStudents() {
-        const students = await fetch(`http://localhost:3001/students`)
+        const students = await fetch(`${config.apiUrl}/students`)
         return students.json();
     };
 
     async function getStudent(id) {
-        const students = await fetch(`http://localhost:3001/students/${id}`)
+        const students = await fetch(`${config.apiUrl}/students/${id}`)
         return students.json();
     };
 

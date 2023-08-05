@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Loader from '../components/Loader';
 import { Link, useParams } from 'react-router-dom';
+import config from '../config';
 
 function EditStudent() {
 
     let student = useParams();
 
     async function getStudent() {
-        const students = await fetch(`http://localhost:3001/students/${student.id}`);
+        const students = await fetch(`${config.apiUrl}/students/${student.id}`);
         return students.json();
     };
 

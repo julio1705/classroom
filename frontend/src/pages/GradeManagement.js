@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import { Link, useParams } from 'react-router-dom';
+import config from '../config';
 
 function GradeManagement() {
 
     let student = useParams();
 
     async function getStudentGrades() {
-        const grades = await fetch(`http://localhost:3001/students/${student.id}/grades/`)
+        const grades = await fetch(`${config.apiUrl}/students/${student.id}/grades/`)
         return grades.json();
     };
 
